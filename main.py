@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 
 # =============================================
 # Configuration
-CSV_FILE = "name.csv"
-MAX_COUNTER = 1
+CSV_FILE = "nameMock.csv"       # CSV Name
+MAX_COUNTER = 10
 CERTIFICATE_PATH = "certificate.png"
 FONT_PATH = "IBMPlexSansThai-SemiBold.ttf"
-FONT_SIZE = 48
-NAME_POSITION = (400, 400)
-NAME_COLOR = (255, 0, 0)
+
+NAME_POSITION = (50, 70)    # Name Position: 50% from left, 70% from top
+NAME_COLOR = (255, 0, 0)    # Red
 # ============================================
 
 def read_csv(filename):
@@ -31,12 +31,28 @@ def write_csv(filename, rows, fieldnames):
         writer.writerows(rows)
 
 def generate_certificate(name):
+    FONT_SIZE = 48
+    if len(name) > 28:
+        FONT_SIZE = 36
+    if len(name) > 40:
+        FONT_SIZE = 24
+    
     img = Image.open(CERTIFICATE_PATH).convert("RGBA")
+    imgWidth, imgHeight = img.size
+    
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(FONT_PATH, size=FONT_SIZE)
 
-    # Fill with red color
-    draw.text(NAME_POSITION, name, font=font, fill=NAME_COLOR)
+    # Target the center of text container
+    bbox = font.getbbox(name)
+    text_width = bbox[2] - bbox[0]
+    text_height = bbox[3] - bbox[1]
+    center_x, center_y = int(imgWidth * NAME_POSITION[0] / 100), int(imgHeight * NAME_POSITION[1] / 100)
+    x = center_x - text_width // 2
+    y = center_y - text_height // 2
+
+    # Fill Color
+    draw.text((x, y), name, font=font, fill=NAME_COLOR)
 
     png_path = f"Certificate_CUOPH2026_{name}.png"
     pdf_path = f"Certificate_CUOPH2026_{name}.pdf"
@@ -105,8 +121,8 @@ def main():
             break
 
         if not row.get('sent') or row['sent'].strip().upper() != 'TRUE':
-            email = row['email']
-            name = row['name']
+            email = row['email'].lower().strip()
+            name = row['name'].strip()
             print(f"Sending email to {email} ({name}) ...")
 
             png_path, pdf_path = generate_certificate(name)
