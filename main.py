@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 
 # =============================================
 # Configuration
-CSV_FILE = "nameMock.csv"       # CSV Name
+CSV_FILE = "nameMock.csv"               # CSV Name
 MAX_COUNTER = 10
 CERTIFICATE_PATH = "certificate.png"
-FONT_PATH = "IBMPlexSansThai-SemiBold.ttf"
+FONT_PATH = "Sarabun-Regular.ttf"
 
-NAME_POSITION = (50, 70)    # Name Position: 50% from left, 70% from top
-NAME_COLOR = (255, 0, 0)    # Red
+NAME_POSITION = (50, 42)                # Name Position: 50% from left, 42% from top
+NAME_COLOR = (0, 0, 0)                  # Black
 # ============================================
 
 def read_csv(filename):
@@ -32,10 +32,8 @@ def write_csv(filename, rows, fieldnames):
 
 def generate_certificate(name):
     FONT_SIZE = 48
-    if len(name) > 28:
+    if len(name) > 30:
         FONT_SIZE = 36
-    if len(name) > 40:
-        FONT_SIZE = 24
     
     img = Image.open(CERTIFICATE_PATH).convert("RGBA")
     imgWidth, imgHeight = img.size
