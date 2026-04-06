@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 # =============================================
 # Configuration
 CSV_FILE = "nameMock.csv"               # CSV Name
-MAX_COUNTER = 10
+MAX_COUNTER = 100
 CERTIFICATE_PATH = "certificate.png"
 FONT_PATH = "Sarabun-Regular.ttf"
 
@@ -63,10 +63,12 @@ def generate_certificate(name):
 
 def send_email(to_email: str, name: str, attachment_path: list):
     html_content = f"""
-        <h1>Hello {name}!</h1>
-        <p>This is the email sending system powered by Resend.</p>
-        <p>Sent to: {to_email}</p>
-        <p>Sent at: {datetime.now().isoformat()}</p>
+        <p>เรียน คุณ {name}</p>
+        <p>ทางคณะผู้จัดงาน Chula Open House 2026 ขอขอบคุณที่ให้ความสนใจ และเข้าร่วมกิจกรรมเมื่อวันที่ 28-29 มีนาคม 2569 ที่ผ่านมา</p>
+        <p>เพื่อเป็นการตอบแทนความตั้งใจและแสดงความยินดีในการร่วมค้นหาตัวตนและเส้นทางการศึกษาต่อ ณ จุฬาลงกรณ์มหาวิทยาลัย ทางเราได้แนบ E-Certificate มาพร้อมกับอีเมลฉบับนี้</p>
+        <p>หวังเป็นอย่างยิ่งว่าประสบการณ์ในครั้งนี้จะเป็นแรงบันดาลใจและเป็นประโยชน์ต่อก้าวต่อไปในอนาคตของคุณ แล้วพบกันใหม่ในโอกาสหน้า</p>
+        <p>ขอแสดงความนับถือ</p>
+        <p>ทีมงาน Chula Open House 2026</p>
     """
     attachments = []
     try:
@@ -84,7 +86,7 @@ def send_email(to_email: str, name: str, attachment_path: list):
 
     sender_name = "Staff CUOPH2026"
     sender_email = "staff@cuoph2026.com"
-    sending_topic = "CUOPH2026 Certificate"
+    sending_topic = f"เกียรติบัตรการเข้าร่วมงาน Chula Open House 2026 - {name}"
 
     try:
         payload = {
