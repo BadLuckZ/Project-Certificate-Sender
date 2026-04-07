@@ -1,16 +1,16 @@
 import os
 import csv
 import base64
-from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 import img2pdf
 import resend
 from dotenv import load_dotenv
+from pythainlp.util import normalize
 
 # =============================================
 # Configuration
 CSV_FILE = "nameMock.csv"               # CSV Name
-MAX_COUNTER = 100
+MAX_COUNTER = 400
 CERTIFICATE_PATH = "certificate.png"
 FONT_PATH = "Sarabun-Regular.ttf"
 
@@ -31,9 +31,10 @@ def write_csv(filename, rows, fieldnames):
         writer.writerows(rows)
 
 def generate_certificate(name):
-    FONT_SIZE = 48
+    formatted_name = normalize(name)
+    FONT_SIZE = 72
     if len(name) > 30:
-        FONT_SIZE = 36
+        FONT_SIZE = 60
     
     img = Image.open(CERTIFICATE_PATH).convert("RGBA")
     imgWidth, imgHeight = img.size
@@ -50,7 +51,7 @@ def generate_certificate(name):
     y = center_y - text_height // 2
 
     # Fill Color
-    draw.text((x, y), name, font=font, fill=NAME_COLOR)
+    draw.text((x, y), formatted_name, font=font, fill=NAME_COLOR)
 
     png_path = f"Certificate_CUOPH2026_{name}.png"
     pdf_path = f"Certificate_CUOPH2026_{name}.pdf"
