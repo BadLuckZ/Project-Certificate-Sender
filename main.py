@@ -130,20 +130,19 @@ def main():
             if send_email(email, name, [png_path, pdf_path]):
                 row['sent'] = 'TRUE'
                 updated = True
-                counter += 1
                 print("Success!")
             else:
                 row['sent'] = 'FALSE'
                 print("Fail!")
             os.remove(pdf_path) 
             os.remove(png_path)
+            counter += 1
 
     if updated:
         fieldnames = list(rows[0].keys())
         write_csv(CSV_FILE, rows, fieldnames)
 
 load_dotenv()
-env = os.environ.get("NODE_ENV", "development")
-resend.api_key = os.environ.get(f"RESEND_API_{env.upper()}", "")
+resend.api_key = os.environ.get("RESEND_API", "")
 
 main()
